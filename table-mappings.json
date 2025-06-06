@@ -1,0 +1,1162 @@
+{
+  "rules": [
+    {
+      "rule-type": "selection",
+      "rule-id": "1",
+      "rule-name": "include-vendor-insurance",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor"
+      },
+      "rule-action": "include",
+      "filters": [
+        {
+          "filter-type": "source",
+          "column-name": "Vendor Posting Group",
+          "filter-conditions": [
+            {
+              "filter-operator": "eq",
+              "value": "SEGUROS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "2",
+      "rule-name": "rename-table",
+      "rule-action": "rename",
+      "rule-target": "table",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor"
+      },
+      "value": "insurance_agent"
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "3",
+      "rule-name": "rename-schema",
+      "rule-action": "rename",
+      "rule-target": "schema",
+      "object-locator": {
+        "schema-name": "dbo"
+      },
+      "value": "segurosprueba"
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "4",
+      "rule-name": "rename-no--to-nav-code",
+      "rule-action": "rename",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "No_"
+      },
+      "value": "Nav_Code"
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "5",
+      "rule-name": "rename-name-to-first-name",
+      "rule-action": "rename",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Name"
+      },
+      "value": "First_Name"
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "6",
+      "rule-name": "rename-name-2-to-last-name",
+      "rule-action": "rename",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Name 2"
+      },
+      "value": "Last_Name"
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "7",
+      "rule-name": "rename-phone-no--to-phone",
+      "rule-action": "rename",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Phone No_"
+      },
+      "value": "Phone"
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "8",
+      "rule-name": "rename-e-mail-to-email",
+      "rule-action": "rename",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "E-Mail"
+      },
+      "value": "Email"
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "9",
+      "rule-name": "rename-vat-registration-no--to-document-number",
+      "rule-action": "rename",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "VAT Registration No_"
+      },
+      "value": "Document_Number"
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "10",
+      "rule-name": "rename-vat-registration-type-to-type-of-document",
+      "rule-action": "rename",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "VAT Registration Type"
+      },
+      "value": "Type_Of_Document"
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "11",
+      "rule-name": "remove-timestamp",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "timestamp"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "12",
+      "rule-name": "remove-search-name",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Search Name"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "13",
+      "rule-name": "remove-address",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Address"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "14",
+      "rule-name": "remove-address-2",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Address 2"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "15",
+      "rule-name": "remove-city",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "City"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "16",
+      "rule-name": "remove-contact",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Contact"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "17",
+      "rule-name": "remove-telex-no-",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Telex No_"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "18",
+      "rule-name": "remove-our-account-no-",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Our Account No_"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "19",
+      "rule-name": "remove-territory-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Territory Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "20",
+      "rule-name": "remove-global-dimension-1-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Global Dimension 1 Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "21",
+      "rule-name": "remove-global-dimension-2-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Global Dimension 2 Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "22",
+      "rule-name": "remove-budgeted-amount",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Budgeted Amount"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "23",
+      "rule-name": "remove-vendor-posting-group",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Vendor Posting Group"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "24",
+      "rule-name": "remove-currency-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Currency Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "25",
+      "rule-name": "remove-language-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Language Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "26",
+      "rule-name": "remove-statistics-group",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Statistics Group"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "27",
+      "rule-name": "remove-payment-terms-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Payment Terms Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "28",
+      "rule-name": "remove-fin--charge-terms-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Fin_ Charge Terms Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "29",
+      "rule-name": "remove-purchaser-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Purchaser Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "30",
+      "rule-name": "remove-shipment-method-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Shipment Method Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "31",
+      "rule-name": "remove-shipping-agent-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Shipping Agent Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "32",
+      "rule-name": "remove-invoice-disc--code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Invoice Disc_ Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "33",
+      "rule-name": "remove-country-region-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Country_Region Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "34",
+      "rule-name": "remove-blocked",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Blocked"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "35",
+      "rule-name": "remove-pay-to-vendor-no-",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Pay-to Vendor No_"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "36",
+      "rule-name": "remove-priority",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Priority"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "37",
+      "rule-name": "remove-payment-method-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Payment Method Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "38",
+      "rule-name": "remove-last-date-modified",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Last Date Modified"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "39",
+      "rule-name": "remove-application-method",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Application Method"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "40",
+      "rule-name": "remove-prices-including-vat",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Prices Including VAT"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "41",
+      "rule-name": "remove-fax-no-",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Fax No_"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "42",
+      "rule-name": "remove-telex-answer-back",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Telex Answer Back"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "43",
+      "rule-name": "remove-gen--bus--posting-group",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Gen_ Bus_ Posting Group"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "44",
+      "rule-name": "remove-picture",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Picture"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "45",
+      "rule-name": "remove-gln",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "GLN"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "46",
+      "rule-name": "remove-post-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Post Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "47",
+      "rule-name": "remove-county",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "County"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "48",
+      "rule-name": "remove-home-page",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Home Page"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "49",
+      "rule-name": "remove-no--series",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "No_ Series"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "50",
+      "rule-name": "remove-tax-area-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Tax Area Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "51",
+      "rule-name": "remove-tax-liable",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Tax Liable"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "52",
+      "rule-name": "remove-vat-bus--posting-group",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "VAT Bus_ Posting Group"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "53",
+      "rule-name": "remove-block-payment-tolerance",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Block Payment Tolerance"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "54",
+      "rule-name": "remove-ic-partner-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "IC Partner Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "55",
+      "rule-name": "remove-prepayment--",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Prepayment _"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "56",
+      "rule-name": "remove-partner-type",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Partner Type"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "57",
+      "rule-name": "remove-image",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Image"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "58",
+      "rule-name": "remove-creditor-no-",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Creditor No_"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "59",
+      "rule-name": "remove-preferred-bank-account-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Preferred Bank Account Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "60",
+      "rule-name": "remove-cash-flow-payment-terms-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Cash Flow Payment Terms Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "61",
+      "rule-name": "remove-primary-contact-no-",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Primary Contact No_"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "62",
+      "rule-name": "remove-responsibility-center",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Responsibility Center"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "63",
+      "rule-name": "remove-location-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Location Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "64",
+      "rule-name": "remove-lead-time-calculation",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Lead Time Calculation"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "65",
+      "rule-name": "remove-base-calendar-code",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Base Calendar Code"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "66",
+      "rule-name": "remove-document-sending-profile",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Document Sending Profile"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "67",
+      "rule-name": "remove-id",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Id"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "68",
+      "rule-name": "remove-check-digit",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Check Digit"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "69",
+      "rule-name": "remove-ext--vat-registration-no-",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Ext_ VAT Registration No_"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "70",
+      "rule-name": "remove-tax-department",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Tax Department"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "71",
+      "rule-name": "remove-inv--resolution-check",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Inv_ Resolution Check"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "72",
+      "rule-name": "remove-rut-activation-date",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "RUT Activation Date"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "73",
+      "rule-name": "remove-rut-date-check",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "RUT Date Check"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "74",
+      "rule-name": "remove-prepmt--vendor-posting-group",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Prepmt_ Vendor Posting Group"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "75",
+      "rule-name": "remove-type-person",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Type Person"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "76",
+      "rule-name": "remove-state",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "State"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "77",
+      "rule-name": "remove-code-ciiu",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Code CIIU"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "78",
+      "rule-name": "remove-exceeds-income-uvt-last-year",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Exceeds Income UVT Last year"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "79",
+      "rule-name": "remove-cel-phone-no-",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Cel Phone No_"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "80",
+      "rule-name": "remove-dian",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "DIAN"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "81",
+      "rule-name": "remove-simplified-tax-area",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Simplified Tax Area"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "82",
+      "rule-name": "remove-name-fe",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "Name FE"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    },
+    {
+      "rule-type": "transformation",
+      "rule-id": "83",
+      "rule-name": "remove-no-exempt-rent-25",
+      "rule-target": "column",
+      "object-locator": {
+        "schema-name": "dbo",
+        "table-name": "Incolmotos Yamaha S_A_$Vendor",
+        "column-name": "No Exempt Rent 25"
+      },
+      "rule-action": "remove-column",
+      "value": null,
+      "old-value": null
+    }
+  ]
+}
