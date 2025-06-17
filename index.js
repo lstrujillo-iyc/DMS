@@ -1,14 +1,31 @@
 // Config tiene la siguiente forma:
+/*  
+Operadores disponibles
+'eq' - Igual (=)
+'ne' - No igual (!=)
+'gt' - Mayor que (>)
+'lt' - Menor que (<)
+'gte' - Mayor o igual (>=)
+'lte' - Menor o igual (<=)
+'like' - LIKE (para patrones)
+'not-like' - NOT LIKE
+*/
+// doc: https://docs.aws.amazon.com/es_es/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Transformations.html
 const config = {
   sourceSchema: 'dbo',
   sourceTable: 'Incolmotos Yamaha S_A_$Vendor',
   targetSchema: 'segurosprueba',
-  targetTable: 'insurance_agent',
+  targetTable: 'person',
   filters: [
     {
-      columnName: 'Vendor Posting Group',
+      columnName: 'Tax Area Code',
       filterOperator: 'eq',
-      value: 'SEGUROS',
+      value: 'PNEMPLEADO',
+    },
+    {
+      columnName: 'Blocked',
+      filterOperator: 'eq',
+      value: 0,
     },
   ],
   sourceColumnNames: [
@@ -101,6 +118,21 @@ const config = {
     Email: 'E-Mail',
     Document_Number: 'VAT Registration No_',
     Type_Of_Document: 'VAT Registration Type',
+  },
+  // Columnas concatenadas: { targetColumn: { expression: 'CONCAT(...)', sourceColumns: [...], dataType: {...} } }
+  addColumns: {
+    Address: {
+      expression: "$Address || '_' || $Address 2",
+      // expression: "$Address || '_' || $Address 2", // Es opcional, normalmente utilizada para concatenar columnas
+      sourceColumns: ['Address', 'Address 2'],
+      dataType: {
+        type: 'string', // El tipo de dato de la columna a crear. 'string' 'boolean' 'int' 'bigint' 'smallint' 'tinyint' 'decimal' 'float' 'double' 'date' 'time' 'datetime' 'timestamp' 'binary' 'blob' 'clob'
+        length: 100, // (Opcional) Longitud máxima para tipos de texto o binarios.
+        // precision: 6, // (Opcional) Precisión para tipos numéricos o de fecha/hora.
+        // scale: 2, // (Opcional) Escala para tipos numéricos decimales (número de decimales). La escala indica cuántos dígitos se reservan para la parte fraccionaria. Por ejemplo, con DECIMAL(18,2)
+        // nullable: true, // (Opcional) Si la columna permite valores nulos (true o false).
+      },
+    },
   },
 };
 
@@ -200,13 +232,53 @@ function generateTableMappingsJSON(config) {
     }
   );
 
+  // Generar reglas de transformación para columnas concatenadas
+  if (config.addColumns) {
+    Object.entries(config.addColumns).forEach(
+      ([targetColumnName, addConfig]) => {
+        const addColumnRule = {
+          'rule-type': 'transformation',
+          'rule-id': columnRuleId.toString(),
+          'rule-name': `add-column-${targetColumnName
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, '-')}`,
+          'rule-action': 'add-column',
+          'rule-target': 'column',
+          'object-locator': {
+            'schema-name': config.sourceSchema,
+            'table-name': config.sourceTable,
+          },
+          value: targetColumnName,
+          'data-type': addConfig.dataType,
+        };
+        // Only add expression if present
+        if (addConfig.expression) {
+          addColumnRule.expression = addConfig.expression;
+        }
+        tableMappings.rules.push(addColumnRule);
+        columnRuleId++;
+      }
+    );
+  }
+
   // Generar reglas de transformación para remover columnas
   // Obtener las columnas que se están usando en targetColumnNames
   const usedColumns = Object.values(config.targetColumnNames);
 
+  // Obtener las columnas que se están usando en concatenatedColumns
+  // const usedInConcatenation = config.concatenatedColumns
+  //   ? Object.values(config.concatenatedColumns).flatMap(
+  //       (concat) => concat.sourceColumns
+  //     )
+  //   : [];
+
+  // Combinar todas las columnas utilizadas
+  // const allUsedColumns = [...usedColumns, ...usedInConcatenation];
+  const allUsedColumns = [...usedColumns];
+
   // Filtrar sourceColumnNames para obtener solo las columnas que no se están usando
   const columnsToRemove = config.sourceColumnNames.filter(
-    (columnName) => !usedColumns.includes(columnName)
+    (columnName) => !allUsedColumns.includes(columnName)
   );
 
   // Generar reglas de remoción para cada columna no utilizada
