@@ -13,127 +13,54 @@ Operadores disponibles
 // doc: https://docs.aws.amazon.com/es_es/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Transformations.html
 const config = {
   sourceSchema: 'dbo',
-  sourceTable: 'Incolmotos Yamaha S_A_$Vendor',
-  targetSchema: 'segurosprueba',
-  targetTable: 'person',
-  filters: [
-    {
-      columnName: 'Tax Area Code',
-      filterOperator: 'eq',
-      value: 'PNEMPLEADO',
-    },
-    {
-      columnName: 'Blocked',
-      filterOperator: 'eq',
-      value: 0,
-    },
-  ],
+  sourceTable: 'Incolmotos Yamaha S_A_$Tempario',
+  targetSchema: 'calidad_mp',
+  targetTable: 'tempario',
+  // filters: [
+  //   {
+  //     columnName: 'Tax Area Code',
+  //     filterOperator: 'eq',
+  //     value: 'PNEMPLEADO',
+  //   },
+  //   {
+  //     columnName: 'Blocked',
+  //     filterOperator: 'eq',
+  //     value: 0,
+  //   },
+  // ],
   sourceColumnNames: [
     'timestamp',
-    'No_',
-    'Name',
-    'Search Name',
-    'Name 2',
-    'Address',
-    'Address 2',
-    'City',
-    'Contact',
-    'Phone No_',
-    'Telex No_',
-    'Our Account No_',
-    'Territory Code',
-    'Global Dimension 1 Code',
-    'Global Dimension 2 Code',
-    'Budgeted Amount',
-    'Vendor Posting Group',
-    'Currency Code',
-    'Language Code',
-    'Statistics Group',
-    'Payment Terms Code',
-    'Fin_ Charge Terms Code',
-    'Purchaser Code',
-    'Shipment Method Code',
-    'Shipping Agent Code',
-    'Invoice Disc_ Code',
-    'Country_Region Code',
-    'Blocked',
-    'Pay-to Vendor No_',
-    'Priority',
-    'Payment Method Code',
-    'Last Date Modified',
-    'Application Method',
-    'Prices Including VAT',
-    'Fax No_',
-    'Telex Answer Back',
-    'VAT Registration No_',
-    'Gen_ Bus_ Posting Group',
-    'Picture',
-    'GLN',
-    'Post Code',
-    'County',
-    'E-Mail',
-    'Home Page',
-    'No_ Series',
-    'Tax Area Code',
-    'Tax Liable',
-    'VAT Bus_ Posting Group',
-    'Block Payment Tolerance',
-    'IC Partner Code',
-    'Prepayment _',
-    'Partner Type',
-    'Image',
-    'Creditor No_',
-    'Preferred Bank Account Code',
-    'Cash Flow Payment Terms Code',
-    'Primary Contact No_',
-    'Responsibility Center',
-    'Location Code',
-    'Lead Time Calculation',
-    'Base Calendar Code',
-    'Document Sending Profile',
-    'Id',
-    'VAT Registration Type',
-    'Check Digit',
-    'Ext_ VAT Registration No_',
-    'Tax Department',
-    'Inv_ Resolution Check',
-    'RUT Activation Date',
-    'RUT Date Check',
-    'Prepmt_ Vendor Posting Group',
-    'Type Person',
-    'State',
-    'Code CIIU',
-    'Exceeds Income UVT Last year',
-    'Cel Phone No_',
-    'DIAN',
-    'Simplified Tax Area',
-    'Name FE',
-    'No Exempt Rent 25',
+    'Item No_ 2',
+    'Code',
+    'Spanish Description',
+    'English Description',
+    'Time',
+    'Type',
+    'Warranty Enable',
+    'Blocked for Warranty',
   ],
   targetColumnNames: {
-    Nav_Code: 'No_',
-    First_Name: 'Name',
-    Last_Name: 'Name 2',
-    Phone: 'Phone No_',
-    Email: 'E-Mail',
-    Document_Number: 'VAT Registration No_',
-    Type_Of_Document: 'VAT Registration Type',
+    Job_Model_Code: 'Item No_ 2',
+    Code: 'Code',
+    Spanish_Description: 'Spanish Description',
+    English_Description: 'English Description',
+    Time: 'Time',
   },
   // Columnas concatenadas: { targetColumn: { expression: 'CONCAT(...)', sourceColumns: [...], dataType: {...} } }
-  addColumns: {
-    Address: {
-      expression: "$Address || '_' || $Address 2",
-      // expression: "$Address || '_' || $Address 2", // Es opcional, normalmente utilizada para concatenar columnas
-      sourceColumns: ['Address', 'Address 2'],
-      dataType: {
-        type: 'string', // El tipo de dato de la columna a crear. 'string' 'boolean' 'int' 'bigint' 'smallint' 'tinyint' 'decimal' 'float' 'double' 'date' 'time' 'datetime' 'timestamp' 'binary' 'blob' 'clob'
-        length: 100, // (Opcional) Longitud máxima para tipos de texto o binarios.
-        // precision: 6, // (Opcional) Precisión para tipos numéricos o de fecha/hora.
-        // scale: 2, // (Opcional) Escala para tipos numéricos decimales (número de decimales). La escala indica cuántos dígitos se reservan para la parte fraccionaria. Por ejemplo, con DECIMAL(18,2)
-        // nullable: true, // (Opcional) Si la columna permite valores nulos (true o false).
-      },
-    },
-  },
+  // addColumns: {
+  //   Is_Employee: {
+  //     expression: 'true',
+  //     // expression: "$Address || '_' || $Address 2", // Es opcional, normalmente utilizada para concatenar columnas
+  //     // sourceColumns: ['Address', 'Address 2'],
+  //     dataType: {
+  //       type: 'boolean', // El tipo de dato de la columna a crear. 'string' 'boolean' 'int' 'bigint' 'smallint' 'tinyint' 'decimal' 'float' 'double' 'date' 'time' 'datetime' 'timestamp' 'binary' 'blob' 'clob'
+  //       // length: 100, // (Opcional) Longitud máxima para tipos de texto o binarios.
+  //       // precision: 6, // (Opcional) Precisión para tipos numéricos o de fecha/hora.
+  //       // scale: 2, // (Opcional) Escala para tipos numéricos decimales (número de decimales). La escala indica cuántos dígitos se reservan para la parte fraccionaria. Por ejemplo, con DECIMAL(18,2)
+  //       // nullable: true, // (Opcional) Si la columna permite valores nulos (true o false).
+  //     },
+  //   },
+  // },
 };
 
 function generateTableMappingsJSON(config) {
@@ -145,7 +72,7 @@ function generateTableMappingsJSON(config) {
   const selectionRule = {
     'rule-type': 'selection',
     'rule-id': '1',
-    'rule-name': 'include-vendor-insurance',
+    'rule-name': `include-${config.targetTable}-${config.targetSchema}`,
     'object-locator': {
       'schema-name': config.sourceSchema,
       'table-name': config.sourceTable,
