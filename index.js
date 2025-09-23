@@ -1,6 +1,6 @@
 // Config tiene la siguiente forma:
 /*  
-Operadores disponibles
+Operadores disponibles para los filters
 'eq' - Igual (=)
 'ne' - No igual (!=)
 'gt' - Mayor que (>)
@@ -13,38 +13,40 @@ Operadores disponibles
 // doc: https://docs.aws.amazon.com/es_es/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Transformations.html
 const config = {
   sourceSchema: 'dbo',
-  sourceTable: 'Incolmotos Yamaha S_A_$Tempario',
+  sourceTable: 'Incolmotos Yamaha S_A_$Resource',
   targetSchema: 'calidad_mp',
-  targetTable: 'tempario',
-  // filters: [
-  //   {
-  //     columnName: 'Tax Area Code',
-  //     filterOperator: 'eq',
-  //     value: 'PNEMPLEADO',
-  //   },
-  //   {
-  //     columnName: 'Blocked',
-  //     filterOperator: 'eq',
-  //     value: 0,
-  //   },
-  // ],
+  targetTable: 'resource',
+  filters: [
+    // {
+    //   columnName: 'Item Category Code',
+    //   filterOperator: 'like',
+    //   value: '17000%',
+    //   // value: '170002%',
+    // },
+    // {
+    //   columnName: 'Item Category Code',
+    //   filterOperator: 'like',
+    //   value: '2%',
+    // },
+    // {
+    //   columnName: 'Blocked',
+    //   filterOperator: 'eq',
+    //   value: 0,
+    // },
+  ],
+  // Todas las columnas que existen en la tabla origen
   sourceColumnNames: [
     'timestamp',
-    'Item No_ 2',
-    'Code',
-    'Spanish Description',
-    'English Description',
-    'Time',
-    'Type',
-    'Warranty Enable',
-    'Blocked for Warranty',
+    'Vendor No_',
+    'Item No_',
+    'Variant Code',
+    'Lead Time Calculation',
+    'Vendor Item No_',
   ],
+  // Columnas a sincronizar y renombrar(si lo deseas): { targetColumnName: sourceColumnName }
   targetColumnNames: {
-    Job_Model_Code: 'Item No_ 2',
-    Code: 'Code',
-    Spanish_Description: 'Spanish Description',
-    English_Description: 'English Description',
-    Time: 'Time',
+    Item_No: 'Item No_',
+    Vendor_No: 'Vendor No_',
   },
   // Columnas concatenadas: { targetColumn: { expression: 'CONCAT(...)', sourceColumns: [...], dataType: {...} } }
   // addColumns: {
