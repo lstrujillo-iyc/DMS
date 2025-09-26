@@ -1,22 +1,28 @@
 // Config tiene la siguiente forma:
 /*  
 Operadores disponibles para los filters
-'eq' - Igual (=)
-'ne' - No igual (!=)
-'gt' - Mayor que (>)
-'lt' - Menor que (<)
-'gte' - Mayor o igual (>=)
-'lte' - Menor o igual (<=)
-'like' - LIKE (para patrones)
-'not-like' - NOT LIKE
+lte: igual o inferior a un valor (<=)
+ste: igual o inferior a un valor (alias de lte)
+gte: mayor o igual a un valor (>=)
+eq: igual a un valor (=)
+noteq: distinto a un valor (!=)
+between: igual que o entre dos valores
+notbetween: distinto a o entre dos valores
+null: valores NULL
+notnull: sin valores NULL
 */
 // doc: https://docs.aws.amazon.com/es_es/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Transformations.html
 const config = {
   sourceSchema: 'dbo',
-  sourceTable: 'Incolmotos Yamaha S_A_$Resource',
+  sourceTable: 'Incolmotos Yamaha S_A_$Failure Code Service_Warranty',
   targetSchema: 'calidad_mp',
-  targetTable: 'resource',
+  targetTable: 'failure_code',
   filters: [
+    // {
+    //   columnName: 'Resource Group No_',
+    //   filterOperator: 'eq',
+    //   value: 'INSPECTOR',
+    // },
     // {
     //   columnName: 'Item Category Code',
     //   filterOperator: 'like',
@@ -35,18 +41,12 @@ const config = {
     // },
   ],
   // Todas las columnas que existen en la tabla origen
-  sourceColumnNames: [
-    'timestamp',
-    'Vendor No_',
-    'Item No_',
-    'Variant Code',
-    'Lead Time Calculation',
-    'Vendor Item No_',
-  ],
+  sourceColumnNames: ['timestamp', 'Failure Code', 'Description', 'Locked'],
   // Columnas a sincronizar y renombrar(si lo deseas): { targetColumnName: sourceColumnName }
   targetColumnNames: {
-    Item_No: 'Item No_',
-    Vendor_No: 'Vendor No_',
+    Failure_Code: 'Failure Code',
+    Description: 'Description',
+    Locked: 'Locked',
   },
   // Columnas concatenadas: { targetColumn: { expression: 'CONCAT(...)', sourceColumns: [...], dataType: {...} } }
   // addColumns: {
