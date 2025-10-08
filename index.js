@@ -14,26 +14,35 @@ notnull: sin valores NULL
 // doc: https://docs.aws.amazon.com/es_es/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Transformations.html
 const config = {
   sourceSchema: 'dbo',
-  sourceTable: 'Incolmotos Yamaha S_A_$Failure Code Service_Warranty',
+  sourceTable: 'Incolmotos Yamaha S_A_$Production BOM Header',
   targetSchema: 'calidad_mp',
-  targetTable: 'failure_code',
+  targetTable: 'production_bom_header',
   filters: [
+    // 📑 Ejemplo: Múltiples condiciones para la misma columna se agruparán automáticamente
     // {
     //   columnName: 'Resource Group No_',
     //   filterOperator: 'eq',
     //   value: 'INSPECTOR',
     // },
     // {
-    //   columnName: 'Item Category Code',
-    //   filterOperator: 'like',
-    //   value: '17000%',
-    //   // value: '170002%',
+    //   columnName: 'Resource Group No_',
+    //   filterOperator: 'eq',
+    //   value: 'ANALISTA',
     // },
     // {
-    //   columnName: 'Item Category Code',
-    //   filterOperator: 'like',
-    //   value: '2%',
+    //   columnName: 'Resource Group No_',
+    //   filterOperator: 'eq',
+    //   value: 'TEC_DBR',
     // },
+    // ☝️ Los filtros anteriores se agruparán en un solo filter con múltiples filter-conditions
+    // 📑 Ejemplo: Filtro con operador 'between'
+    // {
+    //   columnName: 'Item Category Code',
+    //   filterOperator: 'between',
+    //   'start-value': '17000201',
+    //   'end-value': '17000204',
+    // },
+    // 📑 Ejemplo: Filtro simple
     // {
     //   columnName: 'Blocked',
     //   filterOperator: 'eq',
@@ -41,12 +50,25 @@ const config = {
     // },
   ],
   // Todas las columnas que existen en la tabla origen
-  sourceColumnNames: ['timestamp', 'Failure Code', 'Description', 'Locked'],
+  sourceColumnNames: [
+    'timestamp',
+    'No_',
+    'Description',
+    'Description 2',
+    'Search Name',
+    'Unit of Measure Code',
+    'Low-Level Code',
+    'Creation Date',
+    'Last Date Modified',
+    'Status',
+    'Version Nos_',
+    'No_ Series',
+  ],
   // Columnas a sincronizar y renombrar(si lo deseas): { targetColumnName: sourceColumnName }
   targetColumnNames: {
-    Failure_Code: 'Failure Code',
+    No: 'No_',
     Description: 'Description',
-    Locked: 'Locked',
+    Status: 'Status',
   },
   // Columnas concatenadas: { targetColumn: { expression: 'CONCAT(...)', sourceColumns: [...], dataType: {...} } }
   // addColumns: {
@@ -55,7 +77,8 @@ const config = {
   //     // expression: "$Address || '_' || $Address 2", // Es opcional, normalmente utilizada para concatenar columnas
   //     // sourceColumns: ['Address', 'Address 2'],
   //     dataType: {
-  //       type: 'boolean', // El tipo de dato de la columna a crear. 'string' 'boolean' 'int' 'bigint' 'smallint' 'tinyint' 'decimal' 'float' 'double' 'date' 'time' 'datetime' 'timestamp' 'binary' 'blob' 'clob'
+  //       // El tipo de dato de la columna a crear. 'string' 'boolean' 'int' 'bigint' 'smallint' 'tinyint' 'decimal' 'float' 'double' 'date' 'time' 'datetime' 'timestamp' 'binary' 'blob' 'clob':
+  //       type: 'boolean',
   //       // length: 100, // (Opcional) Longitud máxima para tipos de texto o binarios.
   //       // precision: 6, // (Opcional) Precisión para tipos numéricos o de fecha/hora.
   //       // scale: 2, // (Opcional) Escala para tipos numéricos decimales (número de decimales). La escala indica cuántos dígitos se reservan para la parte fraccionaria. Por ejemplo, con DECIMAL(18,2)
@@ -84,7 +107,18 @@ function generateTableMappingsJSON(config) {
   };
   // Agregar filtros si existen en la configuración
   if (config.filters && config.filters.length > 0) {
+    // Agrupar filtros por columnName
+    const groupedFilters = {};
+    
     config.filters.forEach((filter) => {
+      const columnName = filter.columnName;
+      
+      // Inicializar el array de condiciones si no existe
+      if (!groupedFilters[columnName]) {
+        groupedFilters[columnName] = [];
+      }
+      
+      // Crear la condición del filtro
       const filterCondition = {
         'filter-operator': filter.filterOperator,
       };
@@ -93,11 +127,25 @@ function generateTableMappingsJSON(config) {
       if (filter.value !== undefined) {
         filterCondition.value = filter.value;
       }
-
+      
+      // Agregar 'start-value' y 'end-value' si existen (para operadores como 'between')
+      if (filter['start-value'] !== undefined) {
+        filterCondition['start-value'] = filter['start-value'];
+      }
+      if (filter['end-value'] !== undefined) {
+        filterCondition['end-value'] = filter['end-value'];
+      }
+      
+      // Agregar la condición al grupo de la columna
+      groupedFilters[columnName].push(filterCondition);
+    });
+    
+    // Convertir los grupos en filtros DMS
+    Object.entries(groupedFilters).forEach(([columnName, conditions]) => {
       const dmsFilter = {
         'filter-type': 'source',
-        'column-name': filter.columnName,
-        'filter-conditions': [filterCondition],
+        'column-name': columnName,
+        'filter-conditions': conditions,
       };
       selectionRule.filters.push(dmsFilter);
     });

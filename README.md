@@ -13,7 +13,9 @@ El generador crea todas las reglas necesarias para:
 ## 🚀 Características
 
 - ✅ **Generación dinámica** de reglas basada en configuración
-- ✅ **Filtros automáticos** en reglas de selección
+- ✅ **Filtros automáticos** en reglas de selección con **agrupación inteligente**
+- ✅ **Múltiples condiciones** por columna (agrupadas automáticamente)
+- ✅ **Todos los operadores DMS**: eq, noteq, gte, lte, between, null, notnull
 - ✅ **Mapeo de columnas** flexible
 - ✅ **Remoción inteligente** de columnas no necesarias
 - ✅ **IDs secuenciales** automáticos para las reglas
@@ -25,8 +27,8 @@ El generador crea todas las reglas necesarias para:
 ```
 ├── index.js                 # Generador principal
 ├── table-mappings.json      # Archivo JSON generado
-├── package.json            # Configuración del proyecto
-└── README.md               # Documentación
+├── package.json             # Configuración del proyecto
+├── README.md                # Documentación principal (este archivo)
 ```
 
 ## ⚙️ Configuración
@@ -52,6 +54,48 @@ const config = {
     },
   ],
   
+  /* 
+  // Ejemplo con MÚLTIPLES CONDICIONES para la misma columna (se agrupan automáticamente):
+  filters: [
+    {
+      columnName: 'Vendor Posting Group',
+      filterOperator: 'eq',
+      value: 'SEGUROS',
+    },
+    {
+      columnName: 'Vendor Posting Group',
+      filterOperator: 'eq',
+      value: 'TRANSPORTE',
+    },
+    {
+      columnName: 'Vendor Posting Group',
+      filterOperator: 'eq',
+      value: 'LOGISTICA',
+    },
+  ],
+  // Esto generará UN SOLO filter con 3 filter-conditions agrupadas
+  
+  // Ejemplo con BETWEEN y múltiples columnas:
+  filters: [
+    {
+      columnName: 'VAT Registration No_',
+      filterOperator: 'between',
+      'start-value': '1000000000',
+      'end-value': '9999999999',
+    },
+    {
+      columnName: 'Blocked',
+      filterOperator: 'eq',
+      value: 0,
+    },
+    {
+      columnName: 'Privacy Blocked',
+      filterOperator: 'eq',
+      value: 0,
+    },
+  ],
+  */
+  
   // Todas las columnas de la tabla fuente
   sourceColumnNames: [
     'timestamp', 'No_', 'Name', 'Search Name', 
@@ -69,6 +113,180 @@ const config = {
     Type_Of_Document: 'VAT Registration Type',
   },
 };
+```
+
+## 🎯 Ejemplos de Filtros
+
+### Operadores Disponibles
+
+| Operador | Descripción | Uso |
+|----------|-------------|-----|
+| `eq` | Igual a un valor | Comparación exacta |
+| `noteq` | Distinto a un valor | Exclusión |
+| `gte` | Mayor o igual a | Rangos numéricos |
+| `lte` | Menor o igual a | Rangos numéricos |
+| `between` | Entre dos valores | Rangos inclusivos |
+| `notbetween` | No entre dos valores | Exclusión de rangos |
+| `null` | Valores NULL | Sin valor |
+| `notnull` | Sin valores NULL | Con valor |
+
+### Ejemplo 1: Múltiples Condiciones para una Misma Columna
+
+```javascript
+filters: [
+  {
+    columnName: 'Resource Group No_',
+    filterOperator: 'eq',
+    value: 'INSPECTOR',
+  },
+  {
+    columnName: 'Resource Group No_',
+    filterOperator: 'eq',
+    value: 'ANALISTA',
+  },
+  {
+    columnName: 'Resource Group No_',
+    filterOperator: 'eq',
+    value: 'TEC_DBR',
+  },
+]
+```
+
+**Resultado generado:**
+```json
+{
+  "filter-type": "source",
+  "column-name": "Resource Group No_",
+  "filter-conditions": [
+    { "filter-operator": "eq", "value": "INSPECTOR" },
+    { "filter-operator": "eq", "value": "ANALISTA" },
+    { "filter-operator": "eq", "value": "TEC_DBR" }
+  ]
+}
+```
+
+✨ **Nota:** Los filtros con el mismo `columnName` se agrupan automáticamente en un solo filter con múltiples `filter-conditions`.
+
+### Ejemplo 2: Operador Between
+
+```javascript
+filters: [
+  {
+    columnName: 'Item Category Code',
+    filterOperator: 'between',
+    'start-value': '17000201',
+    'end-value': '17000299',
+  },
+]
+```
+
+**Resultado generado:**
+```json
+{
+  "filter-type": "source",
+  "column-name": "Item Category Code",
+  "filter-conditions": [
+    {
+      "filter-operator": "between",
+      "start-value": "17000201",
+      "end-value": "17000299"
+    }
+  ]
+}
+```
+
+### Ejemplo 3: Múltiples Columnas con Diferentes Condiciones
+
+```javascript
+filters: [
+  // Filtros para VAT Registration No_ (rango numérico)
+  {
+    columnName: 'VAT Registration No_',
+    filterOperator: 'between',
+    'start-value': '1000000000',
+    'end-value': '9999999999',
+  },
+  // Filtros para Status (múltiples valores)
+  {
+    columnName: 'Status',
+    filterOperator: 'eq',
+    value: 'Active',
+  },
+  {
+    columnName: 'Status',
+    filterOperator: 'eq',
+    value: 'Pending',
+  },
+  // Filtro para Blocked
+  {
+    columnName: 'Blocked',
+    filterOperator: 'eq',
+    value: 0,
+  },
+]
+```
+
+**Resultado generado:**
+```json
+"filters": [
+  {
+    "filter-type": "source",
+    "column-name": "VAT Registration No_",
+    "filter-conditions": [
+      {
+        "filter-operator": "between",
+        "start-value": "1000000000",
+        "end-value": "9999999999"
+      }
+    ]
+  },
+  {
+    "filter-type": "source",
+    "column-name": "Status",
+    "filter-conditions": [
+      { "filter-operator": "eq", "value": "Active" },
+      { "filter-operator": "eq", "value": "Pending" }
+    ]
+  },
+  {
+    "filter-type": "source",
+    "column-name": "Blocked",
+    "filter-conditions": [
+      { "filter-operator": "eq", "value": 0 }
+    ]
+  }
+]
+```
+
+### Ejemplo 4: Combinación de Operadores
+
+```javascript
+filters: [
+  // Precio mayor o igual a 100
+  {
+    columnName: 'Unit Price',
+    filterOperator: 'gte',
+    value: 100,
+  },
+  // Precio menor o igual a 10000
+  {
+    columnName: 'Unit Price',
+    filterOperator: 'lte',
+    value: 10000,
+  },
+  // Tipo de Item
+  {
+    columnName: 'Type',
+    filterOperator: 'eq',
+    value: 'Inventory',
+  },
+  // No bloqueado
+  {
+    columnName: 'Blocked',
+    filterOperator: 'noteq',
+    value: 1,
+  },
+]
 ```
 
 ## 🔧 Uso
